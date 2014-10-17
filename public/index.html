@@ -1,30 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="notijs">
 <head>
-	<title>Notijs</title>
-	<script type="text/javascript" src="http://localhost:2100/socket.io/socket.io.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NotiJS</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/sb-admin-2.css" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <style type="text/css">
+        .pointer{
+            cursor: pointer;
+        }
+    </style>
+
 </head>
 <body>
-<h1>NotiJS</h1>
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">NotiJS</a>
+        </div>
+        <!-- /.navbar-header -->
+
+        <ul ng-controller="NoticeController as NCtrl" class="nav navbar-top-links navbar-right">            
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <span class="badge alert-info">{{ NCtrl.unread }}</span>
+                    <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-alerts">
+                    <li ng-repeat="notice in NCtrl.notices">
+                        <div style="padding: 0 20px; margin-top:20px; text-align: right; margin-bottom: -20px;">
+                            <span class="pointer" ng-click="NCtrl.markAsRead(notice.id)"><i class="fa fa-check"></i></span>
+                            <span class="pointer" ng-click="NCtrl.delete(notice.id)"><i class="fa fa-times"></i></span>
+                        </div>
+                        <a ng-click="NCtrl.go(notice.url)" class="pointer" target="_blank" style="overflow:hidden;">
+                            <div>
+                                <img ng-src="{{ notice.img }}" /> 
+                                <strong>{{ notice.title }}</strong>
+                                <p>{{ notice.body }}</p>
+                                <span class="pull-right text-muted small">{{ notice.datetime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
+                            </div>
+                        </a>
+                    </li>                    
+                    <li class="divider"></li>
+
+                    <li>
+                        <a class="text-center pointer" ng-click="NCtrl.seeAllNotices()">
+                            <strong>Ver todas</strong>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center pointer" ng-click="NCtrl.markAllAsRead()">
+                            <i class="fa fa-check"></i>
+                            <strong>Marcar como leídas</strong>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a class="text-center pointer" ng-click="NCtrl.deleteAll()">
+                            <i class="fa fa-times"></i>
+                            <strong>Eliminar todas</strong>
+                        </a>
+                    </li>
+                </ul>
+                <!-- /.dropdown-alerts -->
+            </li>                
+        </ul>
+        <!-- /.navbar-top-links -->
+    </nav>
 
 
-<script type="text/javascript">
-	var socket = io.connect("http://localhost:2100/Notijs");
-	var user_id = "1";
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">NotiJS</h1>
+                <h3 id="user-id"></h3>
+            </div>
+        </div>
+    </div>
 
-	socket.emit("connection", {
-		"user_id": 	user_id		
-	});
+    <!-- Socket -->
+    <script type="text/javascript" src="http://localhost:2100/socket.io/socket.io.js"></script>
 
-	socket.on("notice", function(notice){
-	    console.log("notice", notice);
-	});
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.1/angular.min.js"></script>
 
-	socket.on("flashNotice", function(notice){
-	    console.log("flasNotice", notice);
-	});
+    <!-- Angular app -->
+    <script src="js/notijs/notijs.js"></script>
+    <script src="js/notijs/controllers.js"></script>
 
-</script>
+    <!-- jQuery Version 1.11.0 -->
+    <script src="js/jquery-1.11.0.js"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="js/sb-admin-2.js"></script>
 </body>
 </html>
