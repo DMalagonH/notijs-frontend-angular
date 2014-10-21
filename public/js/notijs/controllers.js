@@ -11,9 +11,12 @@
 		$http.get(server + "/notice/list/" + user_id)
 			.success(function(response){
 				$scope.notices = response.notices;
-				$scope.unread = $scope.notices.length;
 			});
 
+		$http.get(server + "/notice/unread/" + user_id)
+			.success(function(response){
+				$scope.unread = response.unread;
+			});
 
 		$scope.go = function(url){
 			console.log("Ir a", url);
