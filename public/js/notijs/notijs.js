@@ -1,6 +1,7 @@
 (function () {
 	var app = angular.module('notijs', [
-		'notijs.controllers'
+		'notijs.controllers',
+		'notijs.directives'
 	]);
 
 	
