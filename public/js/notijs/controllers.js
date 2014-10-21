@@ -8,8 +8,8 @@
 		$scope.notices = [];
 		$scope.unread = 0;
 
-		// Obtener 10 últimas notificaciones
-		noticeService.getNotices(10).then(function(notices){
+		// Obtener 5 últimas notificaciones
+		noticeService.getNotices(5).then(function(notices){
 			$scope.notices = notices;
 		});
 
@@ -27,7 +27,10 @@
 		};
 
 		$scope.markAllAsRead = function(){
-			console.log("Marcar todo como leído");
+			noticeService.markAsRead().then(function(unread){
+				$scope.unread = unread;
+				console.log( "Marcardas todas como leídas");
+			});
 		};
 
 		$scope.deleteAll = function(){
@@ -35,7 +38,10 @@
 		};
 
 		$scope.markAsRead = function(id){
-			console.log("Marcar como leída", id);
+			noticeService.markAsRead(id).then(function(unread){
+				$scope.unread = unread;
+				console.log(id, "Marcarda como leída");
+			});
 		};
 
 		$scope.delete = function(id){
