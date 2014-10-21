@@ -1,41 +1,19 @@
 (function () {
-	var ctrl = angular.module('notijs.controllers', []);
+	angular.module('notijs.controllers', [])
 
-	ctrl.controller('NoticeController', ["$scope", function ($scope) {
-		$scope.notices = [
-			{
-				"id":		"1654sdfssk6",
-				"title":	"Título",
-				"body":		"Contenido de la notificación",
-				"datetime":	"2014-10-16T12:55:37.844Z",
-				"img":		"/img/info-icon.png",
-				"url":		"http://www.google.com",
-				"user_id":	"1467",
-				"read":		false
-			},
-			{
-				"id":		"sd545433dw45",
-				"title":	"Título segunda notificación",
-				"body":		"Contenido de la notificación",
-				"datetime":	"2014-10-16T08:00:00.000Z",
-				"img":		null,
-				"url":		"/url/a/aplicacion",
-				"user_id":	"1467",
-				"read":		true
-			},
-			{
-				"id":		"5d5a6fa657e4",
-				"title":	"Título tercera notificación",
-				"body":		"Contenido de la notificación",
-				"datetime":	"2014-10-16T08:00:00.000Z",
-				"img":		"/img/info-icon.png",
-				"url":		null,
-				"user_id":	"1467",
-				"read":		true
-			},
-		];
+	.controller('NoticeController', ["$scope", "$http", function ($scope, $http) {
+		var user_id = 1;
+		var server = "http://localhost:2100";
 
-		$scope.unread = $scope.notices.length;
+		$scope.notices = [];
+		$scope.unread = 0;
+
+		$http.get(server + "/notice/list/" + user_id)
+			.success(function(response){
+				$scope.notices = response.notices;
+				$scope.unread = $scope.notices.length;
+			});
+
 
 		$scope.go = function(url){
 			console.log("Ir a", url);

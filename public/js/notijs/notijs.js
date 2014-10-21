@@ -3,7 +3,4 @@
 		'notijs.controllers',
 		'notijs.directives'
 	]);
-
-	
-
 })();
