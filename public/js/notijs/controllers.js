@@ -1,22 +1,22 @@
 (function () {
 	angular.module('notijs.controllers', [])
 
-	.controller('NoticeController', ["$scope", "$http", function ($scope, $http) {
+	.controller('NoticeController', ["$scope", "noticeService", function ($scope, noticeService) {
 		var user_id = 1;
 		var server = "http://localhost:2100";
 
 		$scope.notices = [];
 		$scope.unread = 0;
 
-		$http.get(server + "/notice/list/" + user_id)
-			.success(function(response){
-				$scope.notices = response.notices;
-			});
+		// Obtener 10 últimas notificaciones
+		noticeService.getNotices(10).then(function(notices){
+			$scope.notices = notices;
+		});
 
-		$http.get(server + "/notice/unread/" + user_id)
-			.success(function(response){
-				$scope.unread = response.unread;
-			});
+		// Obtener número de notificaciones sin leer
+		noticeService.getUnread().then(function(unread){
+			$scope.unread = unread;
+		});
 
 		$scope.go = function(url){
 			console.log("Ir a", url);
