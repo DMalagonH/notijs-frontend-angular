@@ -36,16 +36,16 @@
         <ul ng-controller="NoticeController as NCtrl" class="nav navbar-top-links navbar-right">            
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class="badge alert-info">{{ NCtrl.unread }}</span>
+                    <span class="badge alert-info">{{ unread }}</span>
                     <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-alerts">
-                    <li ng-repeat="notice in NCtrl.notices">
+                    <li ng-repeat="notice in notices">
                         <div style="padding: 0 20px; margin-top:20px; text-align: right; margin-bottom: -20px;">
-                            <span class="pointer" ng-click="NCtrl.markAsRead(notice.id)"><i class="fa fa-check"></i></span>
-                            <span class="pointer" ng-click="NCtrl.delete(notice.id)"><i class="fa fa-times"></i></span>
+                            <span class="pointer" ng-click="markAsRead(notice.id)"><i class="fa fa-check"></i></span>
+                            <span class="pointer" ng-click="delete(notice.id)"><i class="fa fa-times"></i></span>
                         </div>
-                        <a ng-click="NCtrl.go(notice.url)" class="pointer" target="_blank" style="overflow:hidden;">
+                        <a ng-click="go(notice.url)" class="pointer" target="_blank" style="overflow:hidden;">
                             <div>
                                 <img ng-src="{{ notice.img }}" /> 
                                 <strong>{{ notice.title }}</strong>
@@ -57,20 +57,20 @@
                     <li class="divider"></li>
 
                     <li>
-                        <a class="text-center pointer" ng-click="NCtrl.seeAllNotices()">
+                        <a class="text-center pointer" ng-click="seeAllNotices()">
                             <strong>Ver todas</strong>
                         </a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="text-center pointer" ng-click="NCtrl.markAllAsRead()">
+                        <a class="text-center pointer" ng-click="markAllAsRead()">
                             <i class="fa fa-check"></i>
                             <strong>Marcar como leídas</strong>
                         </a>
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a class="text-center pointer" ng-click="NCtrl.deleteAll()">
+                        <a class="text-center pointer" ng-click="deleteAll()">
                             <i class="fa fa-times"></i>
                             <strong>Eliminar todas</strong>
                         </a>
