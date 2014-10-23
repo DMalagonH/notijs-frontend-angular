@@ -64,7 +64,7 @@
 			 * @param String id id de notificación
 			 * @return Integer número de notificaciones sin leer
 			 */
-			function markAsRead(id){
+			function markAsRead(notice){
 				var deferred = $q.defer();
 
 				var url = server + "/notice/read";
@@ -73,22 +73,37 @@
 					"user_id":	user_id					
 				};
 
-				if(id !== undefined){
-					data.id = id;
+				// Marcar 1 notificacion
+				if(notice !== undefined){
+					
+					// Si la notificación no está leída
+					if(notice.read === false){
+						data.id = notice.id;
+						notice.read = true;
+						unread --;
 
-					var notice = _.find(notices, {"id": id});
-					notice.read = true;
-					unread --;
+						// Enviar petición
+						$http.patch(url, {"mark_as_read": data})
+						.success(function(response){
+							deferred.resolve(unread);
+						});
+					}
+					// Si ya esta marcada como leída
+					else{
+						// Retornar el valor actual de unread
+						deferred.resolve(unread);
+					}
 				}
+				// Marcar todas las notificaciones
 				else{
 					unread = 0;
+
+					// Enviar petición
+					$http.patch(url, {"mark_as_read": data})
+					.success(function(response){
+						deferred.resolve(unread);
+					});
 				}
-
-				$http.patch(url, {"mark_as_read": data})
-				.success(function(response){
-					deferred.resolve(unread);
-				});
-
 
 				return deferred.promise;
 			}

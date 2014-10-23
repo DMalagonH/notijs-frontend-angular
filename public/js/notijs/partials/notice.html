@@ -7,10 +7,10 @@
         <ul class="dropdown-menu dropdown-alerts">
             <li ng-repeat="notice in notices" >
 			    <div style="padding: 0 20px; margin-top:20px; text-align: right; margin-bottom: -20px;">
-			        <span class="pointer" ng-click="markAsRead(notice.id)"><i class="fa fa-check"></i></span>
+			        <span class="pointer" ng-click="markAsRead(notice)"><i class="fa fa-check"></i></span>
 			        <span class="pointer" ng-click="delete(notice.id)"><i class="fa fa-times"></i></span>
 			    </div>
-			    <a ng-click="go(notice.url)" class="pointer ng-class: { 'unread': notice.read == false }" target="_blank" style="overflow:hidden;">
+			    <a ng-click="go(notice)" class="pointer ng-class: { 'unread': notice.read == false }" target="_blank" style="overflow:hidden;">
 			        <div>
 			            <img ng-src="{{ notice.img }}" /> 
 			            <strong>{{ notice.title }}</strong>

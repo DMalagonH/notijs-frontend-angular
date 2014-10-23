@@ -18,8 +18,12 @@
 			$scope.unread = unread;
 		});
 
-		$scope.go = function(url){
-			console.log("Ir a", url);
+		$scope.go = function(notice){
+			noticeService.markAsRead(notice).then(function(unread){
+				$scope.unread = unread;
+				console.log("Ir a", notice.url);
+				//window.location = notice.url;
+			});
 		}
 
 		$scope.seeAllNotices = function(){
@@ -37,10 +41,10 @@
 			console.log("ELiminar todo");
 		};
 
-		$scope.markAsRead = function(id){
-			noticeService.markAsRead(id).then(function(unread){
+		$scope.markAsRead = function(notice){
+			noticeService.markAsRead(notice).then(function(unread){
 				$scope.unread = unread;
-				console.log(id, "Marcarda como leída");
+				console.log(notice.id, "Marcarda como leída");
 			});
 		};
 
