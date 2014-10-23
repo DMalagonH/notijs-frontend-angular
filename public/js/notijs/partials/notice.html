@@ -1,46 +1,24 @@
-<ul ng-controller="NoticeController" class="nav navbar-top-links navbar-right">            
-    <li class="dropdown">
-        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-            <span class="badge alert-info">{{ unread }}</span>
-            <i class="fa fa-bell fa-fw"></i><i class="fa fa-caret-down"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-alerts">
-            <li ng-repeat="notice in notices" >
-			    <div style="padding: 0 20px; margin-top:20px; text-align: right; margin-bottom: -20px;">
-			        <span class="pointer" ng-hide="notice.read" ng-click="markAsRead(notice)"><i class="fa fa-check"></i></span>
-			        <span class="pointer" ng-click="delete(notice.id)"><i class="fa fa-times"></i></span>
-			    </div>
-			    <a ng-click="go(notice)" class="pointer ng-class: { 'unread': notice.read == false }" target="_blank" style="overflow:hidden;">
-			        <div>
-			            <img ng-src="{{ notice.img }}" /> 
-			            <strong>{{ notice.title }}</strong>
-			            <p>{{ notice.body }}</p>
-			            <span class="pull-right text-muted small">{{ notice.datetime | date:'yyyy-MM-dd HH:mm:ss' }}</span>
-			        </div>
-			    </a>
-			</li>                    
-			<li class="divider"></li>
-
-
-            <li>
-                <a class="text-center pointer" ng-click="seeAllNotices()">
-                    <strong>Ver todas</strong>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center pointer" ng-click="markAllAsRead()">
-                    <i class="fa fa-check"></i>
-                    <strong>Marcar como leídas</strong>
-                </a>
-            </li>
-            <li class="divider"></li>
-            <li>
-                <a class="text-center pointer" ng-click="deleteAll()">
-                    <i class="fa fa-times"></i>
-                    <strong>Eliminar todas</strong>
-                </a>
-            </li>
-        </ul>
-    </li>                
-</ul>
+<div ng-controller="NoticeController" class="panel panel-default">
+    <div class="panel-heading">
+        <i class="fa fa-bell fa-fw"></i> Últimas notificaciones
+        <span ng-show="unread > 0" class="pull-right badge">{{ unread }} sin leer</span>
+    </div>
+    <div class="panel-body">
+        <div class="list-group">
+            <div ng-repeat="notice in notices" class="list-group-item ng-class: { 'unread': notice.read == false }">
+                <span class="pointer" ng-click="go(notice)">
+                    <img ng-src="{{ notice.img }}" class="img-rounded notice-img"/>
+                    <strong>{{ notice.title }}</strong> {{ notice.body }}
+                </span>
+                <span class="pull-right notice-options">
+                    <button ng-click="markAsRead(notice)" ng-hide="notice.read" type="button" class="btn btn-default btn-xs"><i class="fa fa-check"></i></button>
+                    <button ng-click="delete(notice.id)" type="button" class="btn btn-default btn-xs"><i class="fa fa-times"></i></button>
+                </span>
+                <span class="pull-right text-muted small"><em>{{ notice.datetime | date:'yyyy-MM-dd HH:mm:ss' }}</em></span>
+            </div>
+        </div>
+        <a ng-click="seeAllNotices()" class="btn btn-default btn-block pointer">Ver todas</a>
+        <a ng-click="markAllAsRead()" class="btn btn-default btn-block pointer">Marcar todas como leídas</a>
+        <a ng-click="deleteAll()" class="btn btn-default btn-block pointer">Eliminar todas</a>
+    </div>
+</div>
