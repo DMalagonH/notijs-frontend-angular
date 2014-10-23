@@ -5,6 +5,9 @@
 			var user_id = "1";
 			var server = "http://localhost:2100";
 
+			var notices = [];
+			var unread = 0;
+
 			/**
 			 * Función que obtiene notificaciones de usuario
 			 *
@@ -21,7 +24,16 @@
 
 				$http.get(url)
 				.success(function(response){
-					deferred.resolve(response.notices);
+					if(limit){
+						// Asignar a últimas notificaciones
+						notices = response.notices;
+						deferred.resolve(notices);
+					}
+					else{
+						// Asignar a todas las notificaciones
+						notices = response.notices;
+						deferred.resolve(notices);						
+					}
 				});
 
 				return deferred.promise;
@@ -39,7 +51,8 @@
 
 				$http.get(url)
 				.success(function(response){
-					deferred.resolve(response.unread);
+					unread = response.unread
+					deferred.resolve(unread);
 				});
 
 				return deferred.promise;
@@ -59,15 +72,21 @@
 				var data = {
 					"user_id":	user_id					
 				};
+
 				if(id !== undefined){
 					data.id = id;
+
+					var notice = _.find(notices, {"id": id});
+					notice.read = true;
+					unread --;
+				}
+				else{
+					unread = 0;
 				}
 
 				$http.patch(url, {"mark_as_read": data})
 				.success(function(response){
-					getUnread().then(function(unread){
-						deferred.resolve(unread);
-					});
+					deferred.resolve(unread);
 				});
 
 
