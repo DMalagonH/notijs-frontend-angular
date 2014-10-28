@@ -85,8 +85,6 @@
 						// Enviar petición
 						$http.patch(url, { "mark_as_read": data })
 						.success(function(response){
-							console.log(response);
-
 							deferred.resolve(unread);
 						});
 					}
@@ -103,8 +101,6 @@
 					// Enviar petición
 					$http.patch(url, { "mark_as_read": data })
 					.success(function(response){
-						console.log(response);
-
 						// Marcar items de la lista
 						notices.forEach(function(notice){
 							notice.read = true;
@@ -147,9 +143,6 @@
 					// Enviar petición
 					$http(req_config)
 					.success(function(response){
-
-						console.log(response);
-
 						// Si la notificación no está leída
 						if(notice.read === false){
 							unread --;
@@ -167,8 +160,6 @@
 					// Enviar petición
 					$http(req_config)
 					.success(function(response){
-						console.log(response);
-
 						deferred.resolve(unread);
 					});
 				}
