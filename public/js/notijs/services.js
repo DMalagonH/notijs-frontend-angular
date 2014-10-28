@@ -132,8 +132,11 @@
 					data.id = notice.id;
 
 					// Enviar petición
-					$http.delete(url, { "delete": data })
+					$http.put(url, { "delete": data })
 					.success(function(response){
+						
+						_.remove(notices, notice);
+
 						console.log(response);
 
 						// Si la notificación no está leída
@@ -141,20 +144,27 @@
 							unread --;
 						}
 
-						deferred.resolve(unread);
+						deferred.resolve({
+							unread: 	unread,
+							notices: 	notices
+						});
 					});
 				}
 				// ELiminar todas las notificaciones
 				else
 				{
 					unread = 0;
+					notices = [];
 
 					// Enviar petición
-					$http.delete(url, { "delete": data })
+					$http.put(url, { "delete": data })
 					.success(function(response){
 						console.log(response);
 
-						deferred.resolve(unread);
+						deferred.resolve({
+							unread: 	unread,
+							notices: 	notices
+						});
 					});
 				}
 

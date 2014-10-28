@@ -45,15 +45,17 @@
 		};
 
 		$scope.deleteAll = function(){
-			noticeService.delete().then(function(unread){
-				$scope.unread = unread;
+			noticeService.delete().then(function(result){
+				$scope.unread = result.unread;
+				$scope.notices = result.notices;
 				console.log("ELiminar todo");
 			});
 		};
 
 		$scope.delete = function(notice){
-			noticeService.delete(notice).then(function(unread){
-				$scope.unread = unread;
+			noticeService.delete(notice).then(function(result){
+				$scope.unread = result.unread;
+				$scope.notices = result.notices;
 				console.log("Eliminar", notice.id);
 			});
 		};
