@@ -132,12 +132,20 @@
 					"user_id":	user_id					
 				};
 
+				// Configuración de request delete
+				var req_config = {
+					method: "DELETE",
+					url: url,
+					data: { "delete": data },
+					headers: {"Content-Type": "application/json;charset=utf-8"}
+				};
+
 				// Eliminar 1 notificación
 				if(notice !== undefined){
 					data.id = notice.id;
 
 					// Enviar petición
-					$http.put(url, { "delete": data })
+					$http(req_config)
 					.success(function(response){
 
 						console.log(response);
@@ -157,7 +165,7 @@
 					notices = [];
 
 					// Enviar petición
-					$http.put(url, { "delete": data })
+					$http(req_config)
 					.success(function(response){
 						console.log(response);
 
