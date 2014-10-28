@@ -105,6 +105,11 @@
 					.success(function(response){
 						console.log(response);
 
+						// Marcar items de la lista
+						notices.forEach(function(notice){
+							notice.read = true;
+						});
+
 						deferred.resolve(unread);
 					});
 				}
