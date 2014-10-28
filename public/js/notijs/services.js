@@ -61,7 +61,7 @@
 			/**
 			 * Función para marcar notificaciones como leídas
 			 *
-			 * @param String id id de notificación
+			 * @param Object notificación
 			 * @return Integer número de notificaciones sin leer
 			 */
 			function markAsRead(notice){
@@ -83,8 +83,10 @@
 						unread --;
 
 						// Enviar petición
-						$http.patch(url, {"mark_as_read": data})
+						$http.patch(url, { "mark_as_read": data })
 						.success(function(response){
+							console.log(response);
+
 							deferred.resolve(unread);
 						});
 					}
@@ -99,8 +101,59 @@
 					unread = 0;
 
 					// Enviar petición
-					$http.patch(url, {"mark_as_read": data})
+					$http.patch(url, { "mark_as_read": data })
 					.success(function(response){
+						console.log(response);
+
+						deferred.resolve(unread);
+					});
+				}
+
+				return deferred.promise;
+			}
+
+			/*
+			 * Fución para eliminar notificaciones
+			 *	
+			 * @param Object notificación
+			 * @return Integer número de notificaciones sin leer
+			 */
+			function deleteNotice(notice){
+				var deferred = $q.defer();
+
+				var url = server + "/notice";
+
+				var data = {
+					"user_id":	user_id					
+				};
+
+				// Eliminar 1 notificación
+				if(notice !== undefined){
+					data.id = notice.id;
+
+					// Enviar petición
+					$http.delete(url, { "delete": data })
+					.success(function(response){
+						console.log(response);
+
+						// Si la notificación no está leída
+						if(notice.read === false){
+							unread --;
+						}
+
+						deferred.resolve(unread);
+					});
+				}
+				// ELiminar todas las notificaciones
+				else
+				{
+					unread = 0;
+
+					// Enviar petición
+					$http.delete(url, { "delete": data })
+					.success(function(response){
+						console.log(response);
+
 						deferred.resolve(unread);
 					});
 				}
@@ -111,7 +164,8 @@
 			return {
 				getNotices: getNotices,
 				getUnread: 	getUnread,
-				markAsRead: markAsRead
+				markAsRead: markAsRead,
+				delete: 	deleteNotice
 			};
 		}]);
 })();

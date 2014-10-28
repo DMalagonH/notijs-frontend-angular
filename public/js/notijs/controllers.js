@@ -1,7 +1,7 @@
 (function () {
 	angular.module('notijs.controllers', [])
 
-	.controller('NoticeController', ["$scope", "noticeService", function ($scope, noticeService) {
+	.controller('NoticeController', ["$scope", "noticeService", "$http", function ($scope, noticeService, $http) {
 		var user_id = 1;
 		var server = "http://localhost:2100";
 
@@ -37,10 +37,6 @@
 			});
 		};
 
-		$scope.deleteAll = function(){
-			console.log("ELiminar todo");
-		};
-
 		$scope.markAsRead = function(notice){
 			noticeService.markAsRead(notice).then(function(unread){
 				$scope.unread = unread;
@@ -48,8 +44,18 @@
 			});
 		};
 
-		$scope.delete = function(id){
-			console.log("Eliminar", id);
+		$scope.deleteAll = function(){
+			noticeService.delete().then(function(unread){
+				$scope.unread = unread;
+				console.log("ELiminar todo");
+			});
+		};
+
+		$scope.delete = function(notice){
+			noticeService.delete(notice).then(function(unread){
+				$scope.unread = unread;
+				console.log("Eliminar", notice.id);
+			});
 		};
 	}]);
 
