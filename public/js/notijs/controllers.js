@@ -4,19 +4,25 @@
 	.controller('NoticeController', ["$scope", "noticeService", "$http", function ($scope, noticeService, $http) {
 		var user_id = 1;
 		var server = "http://localhost:2100";
+		var limit = 5;
 
 		$scope.notices = [];
 		$scope.unread = 0;
 
-		// Obtener 5 últimas notificaciones
-		noticeService.getNotices(5).then(function(notices){
-			$scope.notices = notices;
-		});
 
-		// Obtener número de notificaciones sin leer
-		noticeService.getUnread().then(function(unread){
-			$scope.unread = unread;
-		});
+		var getNotices = function(l){
+			// Obtener x últimas notificaciones
+			noticeService.getNotices(l).then(function(notices){
+				$scope.notices = notices;
+			});
+		};
+
+		var getUnread = function(){
+			// Obtener número de notificaciones sin leer
+			noticeService.getUnread().then(function(unread){
+				$scope.unread = unread;
+			});
+		}
 
 		$scope.go = function(notice){
 			noticeService.markAsRead(notice).then(function(unread){
@@ -33,32 +39,34 @@
 		$scope.markAllAsRead = function(){
 			noticeService.markAsRead().then(function(unread){
 				$scope.unread = unread;
-				console.log( "Marcardas todas como leídas");
 			});
 		};
 
 		$scope.markAsRead = function(notice){
 			noticeService.markAsRead(notice).then(function(unread){
 				$scope.unread = unread;
-				console.log(notice.id, "Marcarda como leída");
 			});
 		};
 
 		$scope.deleteAll = function(){
-			noticeService.delete().then(function(result){
-				$scope.unread = result.unread;
-				$scope.notices = result.notices;
-				console.log("ELiminar todo");
+			noticeService.delete().then(function(unread){
+				$scope.unread = unread;
+				$scope.notices = [];
 			});
 		};
 
 		$scope.delete = function(notice){
-			noticeService.delete(notice).then(function(result){
-				$scope.unread = result.unread;
-				$scope.notices = result.notices;
-				console.log("Eliminar", notice.id);
+			noticeService.delete(notice).then(function(unread){
+				$scope.unread = unread;
+				// Obtener x últimas notificaciones
+				getNotices(limit);
 			});
 		};
+
+		// Obtener x últimas notificaciones
+		getNotices(limit);
+		getUnread();
+
 	}]);
 
 })();

@@ -134,8 +134,6 @@
 					// Enviar petición
 					$http.put(url, { "delete": data })
 					.success(function(response){
-						
-						_.remove(notices, notice);
 
 						console.log(response);
 
@@ -144,10 +142,7 @@
 							unread --;
 						}
 
-						deferred.resolve({
-							unread: 	unread,
-							notices: 	notices
-						});
+						deferred.resolve(unread);
 					});
 				}
 				// ELiminar todas las notificaciones
@@ -161,10 +156,7 @@
 					.success(function(response){
 						console.log(response);
 
-						deferred.resolve({
-							unread: 	unread,
-							notices: 	notices
-						});
+						deferred.resolve(unread);
 					});
 				}
 
