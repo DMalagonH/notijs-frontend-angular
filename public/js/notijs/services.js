@@ -4,13 +4,8 @@
 
 			var user_id = "1";
 
-			var config = {
-				user_id: user_id,
-				api_url: "http://localhost:2100",
-				socket_url: "http://localhost:2100/Notijs",
-				limit_latest: 10 
-			};
-
+			// Cargar configuración
+			var config = NotiJSConfig;
 			$rootScope.config = config;
 
 			var notices = [];
