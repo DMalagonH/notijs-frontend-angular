@@ -10,9 +10,12 @@
 		
 		$scope.notices = [];
 		$scope.unread = 0;
+		$scope.seeAll = false;
 
 
 		var getNotices = function(l){
+			// Si ver todo esta activado asignar límite en null
+			l = ($scope.seeAll) ? null : l ;
 			// Obtener x últimas notificaciones
 			noticeService.getNotices(l).then(function(notices){
 				$scope.notices = notices;
@@ -44,6 +47,8 @@
 			var result = noticeService.addNotice(notice);
 			$scope.notices = result.notices;
 			$scope.unread = result.unread;
+			
+			// Aplicar cambios a $scope
 			$scope.$apply();
 		}
 
@@ -56,8 +61,18 @@
 		}
 
 		$scope.seeAllNotices = function(){
-			console.log("Ver todas las notificaciones");
+			$scope.seeAll = true;
+
+			// Obtener todas las notificaciones
+			getNotices();
 		};
+
+		$scope.seeLessNotices = function(){
+			$scope.seeAll = false;
+
+			// Obtener últimas notificaciones
+			getNotices(limit);
+		}
 
 		$scope.markAllAsRead = function(){
 			noticeService.markAsRead().then(function(unread){

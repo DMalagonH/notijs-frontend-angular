@@ -17,7 +17,8 @@
                 <span class="pull-right text-muted small"><em>{{ notice.datetime | date:'yyyy-MM-dd HH:mm:ss' }}</em></span>
             </div>
         </div>
-        <a ng-click="seeAllNotices()" class="btn btn-default btn-block pointer">Ver todas</a>
+        <a ng-click="seeAllNotices()" ng-hide="seeAll" class="btn btn-default btn-block pointer">Ver todas</a>
+        <a ng-click="seeLessNotices()" ng-show="seeAll" class="btn btn-default btn-block pointer">Ver últimas</a>
         <a ng-click="markAllAsRead()" class="btn btn-default btn-block pointer">Marcar todas como leídas</a>
         <a ng-click="deleteAll()" class="btn btn-default btn-block pointer">Eliminar todas</a>
     </div>

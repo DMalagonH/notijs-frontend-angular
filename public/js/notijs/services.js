@@ -40,16 +40,8 @@
 
 				$http.get(url)
 				.success(function(response){
-					if(limit){
-						// Asignar a últimas notificaciones
-						notices = response.notices;
-						deferred.resolve(notices);
-					}
-					else{
-						// Asignar a todas las notificaciones
-						notices = response.notices;
-						deferred.resolve(notices);						
-					}
+					notices = response.notices;
+					deferred.resolve(notices);
 				});
 
 				return deferred.promise;
