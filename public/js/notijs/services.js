@@ -1,9 +1,17 @@
 (function () {
 	angular.module('notijs.services', [])
-		.factory("noticeService", ["$http", "$q", function($http, $q){
+		.factory("noticeService", ["$rootScope", "$http", "$q", function($rootScope, $http, $q){
 
 			var user_id = "1";
-			var server = "http://localhost:2100";
+
+			var config = {
+				user_id: user_id,
+				api_url: "http://localhost:2100",
+				socket_url: "http://localhost:2100/Notijs",
+				limit_latest: 10 
+			};
+
+			$rootScope.config = config;
 
 			var notices = [];
 			var unread = 0;
@@ -33,7 +41,7 @@
 			function getNotices(limit){
 				var deferred = $q.defer();
 
-				var url = server + "/notice/list/" + user_id;
+				var url = config.api_url + "/notice/list/" + user_id;
 				if(limit){
 					url += "/"+limit;
 				}
@@ -55,7 +63,7 @@
 			function getUnread(){
 				var deferred = $q.defer();
 
-				var url = server + "/notice/unread/" + user_id;
+				var url = config.api_url + "/notice/unread/" + user_id;
 
 				$http.get(url)
 				.success(function(response){
@@ -75,7 +83,7 @@
 			function markAsRead(notice){
 				var deferred = $q.defer();
 
-				var url = server + "/notice/read";
+				var url = config.api_url + "/notice/read";
 
 				var data = {
 					"user_id":	user_id					
@@ -130,7 +138,7 @@
 			function deleteNotice(notice){
 				var deferred = $q.defer();
 
-				var url = server + "/notice";
+				var url = config.api_url + "/notice";
 
 				var data = {
 					"user_id":	user_id					

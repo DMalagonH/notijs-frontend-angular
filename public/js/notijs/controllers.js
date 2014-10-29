@@ -1,13 +1,18 @@
 (function () {
 	angular.module('notijs.controllers', [])
 
-	.controller('NoticeController', ["$scope", "noticeService", "$http", function ($scope, noticeService, $http) {
-		var user_id = "1";
-		var limit = 5;
-
-		var socket = io.connect("http://localhost:2100/Notijs");
-
+	.controller('NoticeController', ["$scope", "$rootScope", "noticeService", "$http", function ($scope, $rootScope, noticeService, $http) {
 		
+		// Configuraciones globales
+		var config = $rootScope.config;
+
+		// Limite para ultimas notificaciones
+		var limit = config.limit_latest;
+
+		// Conexión con socket
+		var socket = io.connect(config.socket_url);
+
+		// Variables de scope
 		$scope.notices = [];
 		$scope.unread = 0;
 		$scope.seeAll = false;
@@ -31,7 +36,7 @@
 
 		var socketInit = function(){
 			socket.emit("connection", {
-				"user_id": 	user_id		
+				"user_id": 	config.user_id		
 			});
 
 			socket.on("notice", function(notice){
