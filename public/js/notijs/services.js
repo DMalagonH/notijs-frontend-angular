@@ -8,6 +8,13 @@
 			var config = NotiJSConfig;
 			$rootScope.config = config;
 
+			// Conexión con socket
+			var socket = io.connect(config.socket_url);
+			socket.emit("connection", {
+				"user_id": 	config.user_id		
+			});
+			$rootScope.socket = socket;
+
 			var notices = [];
 			var unread = 0;
 

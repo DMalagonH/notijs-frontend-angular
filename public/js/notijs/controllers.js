@@ -1,7 +1,7 @@
 (function () {
 	angular.module('notijs.controllers', [])
 
-	.controller('NoticeController', ["$scope", "$rootScope", "noticeService", "$http", function ($scope, $rootScope, noticeService, $http) {
+	.controller('NoticeController', ["$scope", "$rootScope", "noticeService", function ($scope, $rootScope, noticeService) {
 		
 		// Configuraciones globales
 		var config = $rootScope.config;
@@ -9,8 +9,8 @@
 		// Limite para ultimas notificaciones
 		var limit = config.limit_latest;
 
-		// Conexión con socket
-		var socket = io.connect(config.socket_url);
+		// Socket
+		var socket = $rootScope.socket;
 
 		// Variables de scope
 		$scope.notices = [];
@@ -35,16 +35,8 @@
 		}
 
 		var socketInit = function(){
-			socket.emit("connection", {
-				"user_id": 	config.user_id		
-			});
-
 			socket.on("notice", function(notice){
 				addNotice(notice);
-			});
-
-			socket.on("flashNotice", function(notice){
-			    console.log("flasNotice", notice);
 			});
 		};
 
@@ -57,7 +49,7 @@
 			$scope.$apply();
 		}
 
-		$scope.go = function(notice){			
+		$scope.go = function(notice){
 			noticeService.markAsRead(notice).then(function(unread){
 				$scope.unread = unread;
 				console.log("Ir a", notice.url);
@@ -113,9 +105,34 @@
 		// Obtener cantidad de notificaciones sin leer
 		getUnread();
 
-		// Iniciar conexión con socket
+		// Iniciar listeners de socket
 		socketInit();
 		
-	}]);
+	}])
+	.controller('FlashController', ["$scope", "$rootScope", "noticeService", function ($scope, $rootScope, noticeService) {
+		
+		// Socket
+		var socket = $rootScope.socket;
 
+		// Variables de scope
+		$scope.notice = false;
+
+		$scope.remove = function(){
+			$scope.notice = false;
+		}
+
+		var socketInit = function(){
+			socket.on("flashNotice", function(notice){
+			    addFlashNotice(notice);
+			});
+		};
+
+		var addFlashNotice = function(notice){
+			$scope.notice = notice;
+			$scope.$apply();
+		};
+
+		// Iniciar listeners de socket
+		socketInit();
+	}]);
 })();

@@ -40,6 +40,18 @@
                 <h1 class="page-header">NotiJS</h1>
             </div>
         </div>
+        <div class="row" ng-controller="FlashController">
+            <div class="col-lg-12">
+                <div ng-show="notice" class="alert alert-success " role="alert">
+                    <img ng-show="{{ notice.img }}" ng-src="{{ notice.img }}" class="img-rounded notice-img"/>
+                    <button ng-click="remove()" type="button" class="close" ><i class="fa fa-times"></i></button>
+                    <a ng-href="{{ notice.url }}" class="alert-link" target="_blank">
+                        <strong>{{ notice.title }}</strong>
+                    </a> 
+                    {{ notice.body }}
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <Notices></Notices>
