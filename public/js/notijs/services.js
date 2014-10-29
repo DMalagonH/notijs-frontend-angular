@@ -4,7 +4,7 @@
 
 			var user_id = "1";
 			var server = "http://localhost:2100";
-
+			
 			var notices = [];
 			var unread = 0;
 

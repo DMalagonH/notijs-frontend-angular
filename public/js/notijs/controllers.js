@@ -2,10 +2,12 @@
 	angular.module('notijs.controllers', [])
 
 	.controller('NoticeController', ["$scope", "noticeService", "$http", function ($scope, noticeService, $http) {
-		var user_id = 1;
-		var server = "http://localhost:2100";
+		var user_id = "1";
 		var limit = 5;
 
+		var socket = io.connect("http://localhost:2100/Notijs");
+
+		
 		$scope.notices = [];
 		$scope.unread = 0;
 
@@ -24,7 +26,30 @@
 			});
 		}
 
-		$scope.go = function(notice){
+		var socketInit = function(){
+			socket.emit("connection", {
+				"user_id": 	user_id		
+			});
+
+			socket.on("notice", function(notice){
+				addNotice(notice);
+			});
+
+			socket.on("flashNotice", function(notice){
+			    console.log("flasNotice", notice);
+			});
+		};
+
+		var addNotice = function(notice){
+			// Agregar notificación al inicio de la lista
+			$scope.notices.unshift(notice);
+			// Aumentar en 1 la cantidad de notificaciones sin leer
+			$scope.unread ++;
+			// Aplicar cambios al scope
+			$scope.$apply();
+		}
+
+		$scope.go = function(notice){			
 			noticeService.markAsRead(notice).then(function(unread){
 				$scope.unread = unread;
 				console.log("Ir a", notice.url);
@@ -63,9 +88,19 @@
 			});
 		};
 
-		// Obtener x últimas notificaciones
+		
+		// Obtener últimas notificaciones
 		getNotices(limit);
+
+		// Obtener cantidad de notificaciones sin leer
 		getUnread();
+
+		// Iniciar conexión con socket
+		socketInit();
+		
+
+		
+
 
 	}]);
 
