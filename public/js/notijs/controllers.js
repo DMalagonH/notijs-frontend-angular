@@ -111,10 +111,6 @@
 		// Iniciar conexión con socket
 		socketInit();
 		
-
-		
-
-
 	}]);
 
 })();
