@@ -4,9 +4,25 @@
 
 			var user_id = "1";
 			var server = "http://localhost:2100";
-			
+
 			var notices = [];
 			var unread = 0;
+
+			/**
+			 * Función para agregar una nueva notificación
+			 *
+			 * @param Object notificación
+			 * @return Object lista de notificaciones y número de notificaciones sin leer
+			 */
+			var addNotice = function(notice){
+				notices.unshift(notice);
+				unread++;
+
+				return {
+					"notices": 	notices,
+					"unread": 	unread
+				};
+			};
 
 			/**
 			 * Función que obtiene notificaciones de usuario
@@ -168,6 +184,7 @@
 			}
 
 			return {
+				addNotice: 	addNotice,
 				getNotices: getNotices,
 				getUnread: 	getUnread,
 				markAsRead: markAsRead,

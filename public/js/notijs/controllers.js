@@ -41,11 +41,9 @@
 		};
 
 		var addNotice = function(notice){
-			// Agregar notificación al inicio de la lista
-			$scope.notices.unshift(notice);
-			// Aumentar en 1 la cantidad de notificaciones sin leer
-			$scope.unread ++;
-			// Aplicar cambios al scope
+			var result = noticeService.addNotice(notice);
+			$scope.notices = result.notices;
+			$scope.unread = result.unread;
 			$scope.$apply();
 		}
 
