@@ -4,11 +4,12 @@
 var express = require('express');
 
 var app = express();
+var port = Number(process.env.PORT || 2200);
 
 // Static files server
 app.use(express["static"](__dirname + '/public'));
 
 // Iniciar servidor
-app.listen(2200, function(){
-	console.log("Notijs listening in port", 2200);
+app.listen(port, function(){
+	console.log("Notijs listening in port", port);
 });
