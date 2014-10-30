@@ -20,5 +20,8 @@
   "homepage": "https://github.com/DMalagonH/notijs-frontend-angular",
   "dependencies": {
     "express": "^4.8.6"    
+  },
+  "engines": {
+    "node": "0.10.x"
   }
 }
