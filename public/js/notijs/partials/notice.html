@@ -6,8 +6,8 @@
     <div class="panel-body">
         <div class="list-group">
             <div ng-repeat="notice in notices" class="list-group-item ng-class: { 'unread': notice.read == false }">
-                <span class="pointer" ng-click="go(notice)">
-                    <img ng-src="{{ notice.img }}" class="img-rounded notice-img"/>
+                <span class="ng-class: { 'pointer': notice.url }" ng-click="go(notice)">
+                    <img ng-src="{{ notice.img }}" ng-show="notice.img" class="img-rounded notice-img"/>
                     <strong>{{ notice.title }}</strong> {{ notice.body }}
                 </span>
                 <span class="pull-right notice-options">
@@ -26,12 +26,10 @@
                 <a ng-click="seeLessNotices()" class="btn btn-default btn-block pointer"><i class="fa fa-angle-up"></i> Ver últimas</a>                
             </div>
             <div class="col-md-4">
-                <a ng-click="markAllAsRead()" class="btn btn-default btn-block pointer"><i class="fa fa-check"></i> Marcar todas como leídas</a>
-                
+                <a ng-click="markAllAsRead()" class="btn btn-default btn-block pointer"><i class="fa fa-check"></i> Marcar todas como leídas</a>                
             </div>
             <div class="col-md-4">
-                <a ng-click="deleteAll()" class="btn btn-default btn-block pointer"><i class="fa fa-times"></i> Eliminar todas</a>
-                
+                <a ng-click="deleteAll()" class="btn btn-default btn-block pointer"><i class="fa fa-times"></i> Eliminar todas</a>                
             </div>
         </div>
     </div>

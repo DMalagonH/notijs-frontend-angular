@@ -52,8 +52,10 @@
 		$scope.go = function(notice){
 			noticeService.markAsRead(notice).then(function(unread){
 				$scope.unread = unread;
-				console.log("Ir a", notice.url);
-				//window.location = notice.url;
+
+				if(notice.url){
+					window.location = notice.url;
+				}
 			});
 		}
 
