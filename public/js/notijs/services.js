@@ -2,19 +2,19 @@
 	angular.module('notijs.services', [])
 		.factory("noticeService", ["$rootScope", "$http", "$q", function($rootScope, $http, $q){
 
-			var user_id = "1";
-
 			// Cargar configuración
 			var config = NotiJSConfig;
 			$rootScope.config = config;
 
+			var user_id = config.user_id;
+
 			// Conexión con socket
 			var socket = io.connect(config.socket_url);
 			socket.emit("connection", {
-				"user_id": 	config.user_id		
+				"user_id": 	user_id		
 			});
 			$rootScope.socket = socket;
-
+			
 			var notices = [];
 			var unread = 0;
 
